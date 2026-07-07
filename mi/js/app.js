@@ -498,3 +498,145 @@ loadFacility();
 
 
 console.log("Data Engine Ready");
+
+/* ==========================================
+PROGRAM MODAL
+========================================== */
+
+const programInfo={
+
+tahfidz:{
+
+title:"Tahfidz Al Qur'an",
+
+image:"assets/img/program-tahfidz.jpg",
+
+text:"Assalamu'alaikum. Saya Ari. Program Tahfidz Al Qur'an bertujuan membiasakan peserta didik mencintai Al-Qur'an sejak usia dini. Pembelajaran dilakukan secara bertahap dengan metode yang menyenangkan sehingga setiap anak dapat berkembang sesuai kemampuannya.",
+
+list:[
+
+"Target hafalan sesuai jenjang",
+
+"Metode murojaah setiap hari",
+
+"Guru pembimbing berpengalaman",
+
+"Evaluasi hafalan berkala"
+
+]
+
+},
+
+arab:{
+
+title:"Bahasa Arab",
+
+image:"assets/img/program-arab.jpg",
+
+text:"Assalamu'alaikum. Saya Ari. Bahasa Arab dikenalkan melalui percakapan sederhana, kosakata harian, lagu, permainan edukatif, dan aktivitas kelas sehingga siswa lebih mudah memahami bahasa Al-Qur'an.",
+
+list:[
+
+"Percakapan sederhana",
+
+"Kosakata harian",
+
+"Game edukatif",
+
+"Pembelajaran interaktif"
+
+]
+
+},
+
+english:{
+
+title:"English Class",
+
+image:"assets/img/program-english.jpg",
+
+text:"Assalamu'alaikum. Saya Ari. English Class membantu siswa mengenal bahasa Inggris dengan pendekatan yang menyenangkan melalui lagu, cerita, permainan, dan praktik berbicara sederhana.",
+
+list:[
+
+"Speaking dasar",
+
+"Vocabulary",
+
+"Learning by Playing",
+
+"Interactive Class"
+
+]
+
+},
+
+digital:{
+
+title:"Digital Learning",
+
+image:"assets/img/program-digital.jpg",
+
+text:"Assalamu'alaikum. Saya Ari. Digital Learning memperkenalkan teknologi secara positif dan bertanggung jawab melalui penggunaan komputer, multimedia, dan media pembelajaran digital.",
+
+list:[
+
+"Pengenalan komputer",
+
+"Media pembelajaran digital",
+
+"Internet sehat",
+
+"Kreativitas berbasis teknologi"
+
+]
+
+}
+
+};
+
+const modal=document.getElementById("programModal");
+
+document.querySelectorAll(".program-card").forEach(card=>{
+
+card.onclick=()=>{
+
+const p=programInfo[card.dataset.program];
+
+document.getElementById("modalTitle").innerHTML=p.title;
+
+document.getElementById("modalImage").src=p.image;
+
+document.getElementById("modalText").innerHTML=p.text;
+
+const ul=document.getElementById("modalList");
+
+ul.innerHTML="";
+
+p.list.forEach(i=>{
+
+ul.innerHTML+=`<li>${i}</li>`;
+
+});
+
+modal.classList.add("show");
+
+};
+
+});
+
+document.querySelector(".modal-close").onclick=()=>{
+
+modal.classList.remove("show");
+
+};
+
+modal.onclick=(e)=>{
+
+if(e.target===modal){
+
+modal.classList.remove("show");
+
+}
+
+};
