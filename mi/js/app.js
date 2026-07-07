@@ -642,32 +642,62 @@ modal.classList.remove("show");
 };
 
 /* ===================================================
-ARI FLOATING MESSAGE
+ARI LAUNCHER
 =================================================== */
+
+const launcher = document.getElementById("ariLauncher");
+
+const bubbleBox = document.querySelector(".ari-bubble");
+
+const chatWindow = document.getElementById("ariChat");
+
+const closeChat = document.getElementById("closeChat");
+
+
+/* =======================================
+Bubble Message
+======================================= */
 
 const bubbleMessages=[
 
-"😊 Saya Ari. Klik saya untuk bertanya.",
+"😊 Saya Ari. Klik saya jika ingin bertanya.",
 
-"📚 Bingung Program Unggulan? Tanya saya.",
+"📚 Saya bisa menjelaskan Program Unggulan.",
 
-"📝 PPDB masih dibuka. Silakan bertanya.",
+"📝 Tanya seputar PPDB juga bisa.",
 
-"🏫 Saya siap menjelaskan sekolah ini.",
+"🏫 Ingin tahu fasilitas sekolah?",
 
-"💚 Ada yang ingin Anda ketahui?"
+"💚 Silakan klik saya kapan saja."
 
 ];
 
-const bubble=document.getElementById("bubbleText");
-
 let bubbleIndex=0;
 
-setInterval(()=>{
 
-bubble.style.opacity=0;
+/* =======================================
+Show Bubble
+======================================= */
+
+function showBubble(){
+
+bubbleBox.style.display="block";
+
+bubbleBox.style.opacity="0";
+
+bubbleBox.style.transform="translateY(20px)";
 
 setTimeout(()=>{
+
+bubbleBox.style.transition=".35s";
+
+bubbleBox.style.opacity="1";
+
+bubbleBox.style.transform="translateY(0)";
+
+},30);
+
+bubbleBox.querySelector(".bubble-text").innerHTML=bubbleMessages[bubbleIndex];
 
 bubbleIndex++;
 
@@ -677,10 +707,89 @@ bubbleIndex=0;
 
 }
 
-bubble.innerHTML=bubbleMessages[bubbleIndex];
+setTimeout(hideBubble,5000);
 
-bubble.style.opacity=1;
+}
 
-},300);
 
-},5000);
+/* =======================================
+Hide Bubble
+======================================= */
+
+function hideBubble(){
+
+bubbleBox.style.opacity="0";
+
+bubbleBox.style.transform="translateY(15px)";
+
+setTimeout(()=>{
+
+bubbleBox.style.display="none";
+
+},400);
+
+}
+
+
+/* =======================================
+Show Chat
+======================================= */
+
+function openChat(){
+
+launcher.style.transform="scale(.85)";
+
+launcher.style.opacity="0";
+
+setTimeout(()=>{
+
+launcher.style.display="none";
+
+chatWindow.classList.add("show");
+
+},250);
+
+}
+
+
+/* =======================================
+Close Chat
+======================================= */
+
+function closeChatWindow(){
+
+chatWindow.classList.remove("show");
+
+setTimeout(()=>{
+
+launcher.style.display="flex";
+
+launcher.style.opacity="1";
+
+launcher.style.transform="scale(1)";
+
+showBubble();
+
+},250);
+
+}
+
+
+/* =======================================
+Event
+======================================= */
+
+launcher.addEventListener("click",openChat);
+
+closeChat.addEventListener("click",closeChatWindow);
+
+
+/* =======================================
+Start
+======================================= */
+
+window.addEventListener("load",()=>{
+
+showBubble();
+
+});
