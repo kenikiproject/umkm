@@ -1582,13 +1582,7 @@ PROGRAM MODAL
 
 position:fixed;
 
-left:0;
-
-top:0;
-
-width:100%;
-
-height:100%;
+inset:0;
 
 background:rgba(0,0,0,.65);
 
@@ -1598,6 +1592,10 @@ justify-content:center;
 
 align-items:center;
 
+padding:25px;
+
+overflow-y:auto;
+
 opacity:0;
 
 visibility:hidden;
@@ -1605,8 +1603,6 @@ visibility:hidden;
 transition:.35s;
 
 z-index:99999;
-
-padding:20px;
 
 }
 
@@ -1622,13 +1618,15 @@ visibility:visible;
 
 background:#fff;
 
-width:760px;
+width:min(760px,100%);
 
-max-width:100%;
+max-height:calc(100vh - 50px);
+
+overflow-y:auto;
 
 border-radius:28px;
 
-padding:32px;
+padding:28px;
 
 position:relative;
 
@@ -1660,13 +1658,13 @@ font-size:42px;
 
 width:100%;
 
-height:260px;
+height:220px;
 
 object-fit:cover;
 
 border-radius:20px;
 
-margin-bottom:25px;
+margin-bottom:22px;
 
 }
 
@@ -1743,5 +1741,19 @@ transform:scale(1);
 opacity:1;
 
 }
+
+}
+
+.modal-box::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+.modal-box::-webkit-scrollbar-thumb{
+
+background:#138A36;
+
+border-radius:20px;
 
 }
