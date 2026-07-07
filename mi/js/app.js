@@ -640,3 +640,47 @@ modal.classList.remove("show");
 }
 
 };
+
+/* ===================================================
+ARI FLOATING MESSAGE
+=================================================== */
+
+const bubbleMessages=[
+
+"😊 Saya Ari. Klik saya untuk bertanya.",
+
+"📚 Bingung Program Unggulan? Tanya saya.",
+
+"📝 PPDB masih dibuka. Silakan bertanya.",
+
+"🏫 Saya siap menjelaskan sekolah ini.",
+
+"💚 Ada yang ingin Anda ketahui?"
+
+];
+
+const bubble=document.getElementById("bubbleText");
+
+let bubbleIndex=0;
+
+setInterval(()=>{
+
+bubble.style.opacity=0;
+
+setTimeout(()=>{
+
+bubbleIndex++;
+
+if(bubbleIndex>=bubbleMessages.length){
+
+bubbleIndex=0;
+
+}
+
+bubble.innerHTML=bubbleMessages[bubbleIndex];
+
+bubble.style.opacity=1;
+
+},300);
+
+},5000);
