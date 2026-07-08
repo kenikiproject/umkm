@@ -1,0 +1,34 @@
+[
+  {
+    "id": "kepala-sekolah",
+    "name": "Nama Kepala Sekolah",
+    "role": "Kepala Madrasah",
+    "subject": "Manajemen Sekolah",
+    "summary": "Memimpin pengembangan program pendidikan dan pembinaan karakter siswa.",
+    "keywords": ["kepala sekolah", "kepala madrasah", "pimpinan"]
+  },
+  {
+    "id": "guru-kelas-1",
+    "name": "Ustadzah Aisyah",
+    "role": "Guru Kelas 1",
+    "subject": "Tematik dan Pembiasaan Dasar",
+    "summary": "Mendampingi siswa kelas awal dalam adaptasi belajar dan pembiasaan akhlak baik.",
+    "keywords": ["guru kelas 1", "kelas satu", "aisyah"]
+  },
+  {
+    "id": "guru-tahfidz",
+    "name": "Ustadz Ahmad",
+    "role": "Guru Tahfidz",
+    "subject": "Tahfidz Al-Qur'an",
+    "summary": "Membimbing hafalan, murojaah, dan adab membaca Al-Qur'an.",
+    "keywords": ["guru tahfidz", "ustadz ahmad", "hafalan"]
+  },
+  {
+    "id": "guru-digital",
+    "name": "Ustadz Farhan",
+    "role": "Guru Digital Learning",
+    "subject": "Komputer dan Media Digital",
+    "summary": "Mengenalkan teknologi secara sehat, kreatif, dan bertanggung jawab.",
+    "keywords": ["guru komputer", "digital", "farhan"]
+  }
+]

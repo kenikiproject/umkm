@@ -1,0 +1,30 @@
+[
+  {
+    "id": "pramuka",
+    "name": "Pramuka",
+    "schedule": "Jumat siang",
+    "summary": "Kegiatan pembentukan kemandirian, disiplin, kerja sama, dan kepemimpinan siswa.",
+    "keywords": ["pramuka", "ekskul", "kemandirian"]
+  },
+  {
+    "id": "hadrah",
+    "name": "Hadrah",
+    "schedule": "Menyesuaikan jadwal pembina",
+    "summary": "Kegiatan seni Islami melalui lantunan shalawat dan latihan kekompakan tim.",
+    "keywords": ["hadrah", "shalawat", "seni islami"]
+  },
+  {
+    "id": "olahraga",
+    "name": "Olahraga",
+    "schedule": "Rabu sore",
+    "summary": "Pengembangan minat bakat siswa di bidang olahraga dan kebugaran jasmani.",
+    "keywords": ["olahraga", "futsal", "sehat", "jasmani"]
+  },
+  {
+    "id": "komputer",
+    "name": "Klub Komputer",
+    "schedule": "Menyesuaikan jadwal lab",
+    "summary": "Kegiatan pengenalan komputer, kreativitas digital, dan penggunaan teknologi sehat.",
+    "keywords": ["komputer", "digital", "ekskul komputer"]
+  }
+]

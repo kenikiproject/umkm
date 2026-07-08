@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Kapan PPDB dibuka?",
+    "answer": "PPDB Tahun Ajaran 2026/2027 dibuka sesuai jadwal resmi sekolah. Informasi final akan diumumkan melalui website dan kontak panitia.",
+    "keywords": ["jadwal", "ppdb", "pendaftaran", "dibuka"]
+  },
+  {
+    "question": "Apa saja dokumen pendaftaran yang perlu disiapkan?",
+    "answer": "Dokumen awal yang disiapkan antara lain Akta Kelahiran, Kartu Keluarga, pas foto calon siswa, dan ijazah TK/RA jika sudah tersedia.",
+    "keywords": ["dokumen", "syarat", "akta", "kk", "pas foto", "ijazah"]
+  },
+  {
+    "question": "Bagaimana cara menghubungi panitia PPDB?",
+    "answer": "Panitia dapat dihubungi melalui WhatsApp 0812-3456-7890 atau email info@miarrisalah.sch.id.",
+    "keywords": ["kontak", "whatsapp", "admin", "panitia", "telepon"]
+  },
+  {
+    "question": "Apakah bisa mendaftar secara online?",
+    "answer": "Bisa. Calon wali murid dapat mengisi formulir PPDB online melalui halaman ppdb.html, lalu menunggu verifikasi dari admin sekolah.",
+    "keywords": ["online", "form", "daftar", "formulir"]
+  }
+]

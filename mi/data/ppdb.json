@@ -1,0 +1,27 @@
+{
+  "academic_year": "2026/2027",
+  "status": "Dibuka terbatas / menunggu pengumuman resmi",
+  "contact_person": {
+    "name": "Panitia PPDB MI Ar Risalah",
+    "phone": "0812-3456-7890",
+    "email": "info@miarrisalah.sch.id"
+  },
+  "steps": [
+    "Mengisi data calon siswa",
+    "Mengisi data orang tua atau wali",
+    "Mengunggah dokumen pendaftaran",
+    "Menunggu verifikasi admin sekolah"
+  ],
+  "documents": [
+    "Akta Kelahiran",
+    "Kartu Keluarga",
+    "Pas foto calon siswa",
+    "Ijazah TK/RA jika tersedia"
+  ],
+  "notes": [
+    "Pastikan nomor WhatsApp aktif.",
+    "Data yang dikirim akan diverifikasi oleh admin.",
+    "Informasi biaya dan jadwal final mengikuti pengumuman resmi sekolah."
+  ],
+  "keywords": ["ppdb", "pendaftaran", "daftar", "dokumen", "syarat", "verifikasi"]
+}

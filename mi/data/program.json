@@ -1,0 +1,30 @@
+[
+  {
+    "id": "tahfidz",
+    "title": "Tahfidz Al-Qur'an",
+    "summary": "Program pembiasaan membaca, menghafal, dan mencintai Al-Qur'an sejak dini.",
+    "details": ["Murojaah rutin", "Target hafalan sesuai jenjang", "Pendampingan guru pembimbing", "Evaluasi berkala"],
+    "keywords": ["tahfidz", "hafalan", "alquran", "quran", "ngaji"]
+  },
+  {
+    "id": "arabic",
+    "title": "Bahasa Arab",
+    "summary": "Pengenalan Bahasa Arab melalui kosakata harian, percakapan sederhana, dan aktivitas kelas.",
+    "details": ["Kosakata dasar", "Percakapan ringan", "Lagu dan permainan edukatif", "Kegiatan praktik kelas"],
+    "keywords": ["arab", "bahasa arab", "lughoh", "kosakata"]
+  },
+  {
+    "id": "english",
+    "title": "English Class",
+    "summary": "Pembelajaran Bahasa Inggris dasar dengan pendekatan menyenangkan dan komunikatif.",
+    "details": ["Vocabulary", "Speaking dasar", "Storytelling", "Learning by playing"],
+    "keywords": ["english", "inggris", "speaking", "vocabulary"]
+  },
+  {
+    "id": "digital",
+    "title": "Digital Learning",
+    "summary": "Pengenalan teknologi secara positif untuk mendukung kreativitas dan pembelajaran siswa.",
+    "details": ["Pengenalan komputer", "Media pembelajaran digital", "Internet sehat", "Kreativitas berbasis teknologi"],
+    "keywords": ["digital", "komputer", "teknologi", "multimedia"]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "perpustakaan",
+    "name": "Perpustakaan",
+    "summary": "Ruang baca dengan koleksi buku pelajaran, buku cerita, dan literatur Islami.",
+    "keywords": ["perpustakaan", "buku", "membaca", "literasi"]
+  },
+  {
+    "id": "lab-komputer",
+    "name": "Lab Komputer",
+    "summary": "Fasilitas komputer untuk pembelajaran digital dan pengenalan teknologi.",
+    "keywords": ["lab", "komputer", "digital", "teknologi"]
+  },
+  {
+    "id": "mushola",
+    "name": "Mushola",
+    "summary": "Tempat ibadah untuk pembiasaan shalat berjamaah dan kegiatan keislaman.",
+    "keywords": ["mushola", "shalat", "ibadah", "islam"]
+  },
+  {
+    "id": "uks",
+    "name": "UKS",
+    "summary": "Unit kesehatan sekolah untuk pertolongan pertama dan pemantauan kesehatan siswa.",
+    "keywords": ["uks", "kesehatan", "sakit", "obat"]
+  }
+]
