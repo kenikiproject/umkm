@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPDB Online - MI Ar Risalah Ngawi</title>
+<meta name="description" content="Formulir PPDB Online MI Ar Risalah Ngawi Tahun Ajaran 2026/2027">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+:root{
+--ppdb-soft:#f4fbf6;
+--ppdb-line:#e8f0ea;
+--ppdb-muted:#6f7f75;
+}
+body{background:#f6faf7;}
+.ppdb-hero{padding:132px 0 42px;background:linear-gradient(135deg,#f8fffb 0%,#eef9f2 100%);position:relative;overflow:hidden;}
+.ppdb-hero::after{content:"";position:absolute;right:-160px;top:-190px;width:520px;height:520px;border-radius:50%;background:radial-gradient(rgba(19,138,54,.18),transparent 68%);}
+.ppdb-hero-grid{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:30px;position:relative;z-index:1;}
+.ppdb-kicker{display:block;font-weight:700;color:#0f6e2b;margin-bottom:10px;}
+.ppdb-hero h1{font-size:44px;line-height:1.16;margin-bottom:10px;}
+.ppdb-year{font-size:24px;color:#138a36;font-weight:700;margin-bottom:14px;}
+.ppdb-hero p{color:#536158;max-width:560px;}
+.ppdb-mascot-wrap{display:flex;justify-content:center;align-items:flex-end;gap:18px;min-height:220px;}
+.ppdb-mascot{width:min(220px,42vw);filter:drop-shadow(0 24px 34px rgba(0,0,0,.14));animation:floatAri 3.8s ease-in-out infinite;}
+.ppdb-card{background:#fff;border-radius:28px;box-shadow:0 22px 60px rgba(13,82,35,.08);border:1px solid rgba(19,138,54,.08);}
+.ppdb-shell{padding:28px 0 70px;}
+.ppdb-form-layout{display:grid;grid-template-columns:260px 1fr;gap:30px;padding:28px;}
+.ppdb-sidebar{border-right:1px solid var(--ppdb-line);padding-right:24px;display:flex;flex-direction:column;gap:26px;}
+.ppdb-steps{display:flex;flex-direction:column;gap:16px;position:relative;}
+.ppdb-step{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border:0;border-radius:16px;background:transparent;text-align:left;font:inherit;color:#768278;font-weight:600;font-size:13px;cursor:pointer;transition:.25s;}
+.ppdb-step span{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid #dce8df;background:#fff;color:#849288;flex-shrink:0;}
+.ppdb-step.active{background:#edf8f0;color:#0f6e2b;}
+.ppdb-step.active span{background:#138a36;color:#fff;border-color:#138a36;}
+.ppdb-help{background:#f4faf6;border:1px solid #e5f1e8;border-radius:18px;padding:18px;margin-top:auto;}
+.ppdb-help h3{font-size:15px;margin-bottom:8px;}
+.ppdb-help p{font-size:12px;color:#69776e;line-height:1.7;margin-bottom:14px;}
+.ppdb-help a{display:flex;align-items:center;gap:8px;color:#0f6e2b;font-weight:700;font-size:12px;margin-top:8px;}
+.ppdb-main{min-width:0;}
+.ppdb-panel{display:none;}
+.ppdb-panel.active{display:block;}
+.ppdb-panel h2{font-size:25px;margin-bottom:24px;}
+.ppdb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.ppdb-field{display:flex;flex-direction:column;gap:8px;}
+.ppdb-field.wide{grid-column:1/-1;}
+.ppdb-field.half{grid-column:span 2;}
+.ppdb-field label{font-size:12px;font-weight:700;color:#26352b;}
+.ppdb-field input,.ppdb-field select,.ppdb-field textarea{width:100%;border:1px solid #dfe8e2;border-radius:10px;padding:13px 14px;font:inherit;font-size:13px;outline:none;background:#fff;transition:.2s;}
+.ppdb-field textarea{min-height:92px;resize:vertical;}
+.ppdb-field input:focus,.ppdb-field select:focus,.ppdb-field textarea:focus{border-color:#138a36;box-shadow:0 0 0 4px rgba(19,138,54,.09);}
+.ppdb-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px;}
+.ppdb-actions .btn-primary,.ppdb-actions .btn-outline{width:auto;border-radius:12px;padding:14px 24px;border:none;cursor:pointer;}
+.ppdb-note{font-size:12px;color:#7b877f;}
+.ppdb-upload-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+.ppdb-upload{border:1.5px dashed #cfe2d4;background:#fbfefc;border-radius:18px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+.ppdb-upload i{width:42px;height:42px;border-radius:14px;background:#eaf8ee;color:#138a36;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ppdb-upload strong{display:block;margin-bottom:6px;}
+.ppdb-upload small{display:block;color:#748077;margin-bottom:12px;}
+.ppdb-upload input{font-size:12px;}
+.ppdb-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.ppdb-summary div{background:#f7fbf8;border:1px solid #e5f1e8;border-radius:14px;padding:14px;}
+.ppdb-summary span{display:block;font-size:12px;color:#758078;margin-bottom:4px;}
+.ppdb-summary strong{font-size:14px;}
+.ppdb-consent{display:flex;align-items:flex-start;gap:10px;margin-top:20px;font-size:13px;color:#5c6860;}
+.ppdb-consent input{margin-top:4px;}
+.ppdb-status{display:none;margin-top:18px;padding:14px 16px;border-radius:14px;font-size:13px;font-weight:600;}
+.ppdb-status.show{display:block;}
+.ppdb-status.ok{background:#eaf8ee;color:#0f6e2b;}
+.ppdb-status.error{background:#fff1f1;color:#a72525;}
+.ppdb-flow{margin-top:28px;padding:26px;display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:center;}
+.ppdb-flow img{width:190px;margin:auto;filter:drop-shadow(0 16px 28px rgba(0,0,0,.12));}
+.ppdb-flow h2{font-size:22px;margin-bottom:22px;}
+.ppdb-flow-list{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.ppdb-flow-item{text-align:center;position:relative;}
+.ppdb-flow-icon{width:52px;height:52px;border-radius:50%;background:#eff9f2;border:1px solid #dcefe1;color:#138a36;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.ppdb-flow-item strong{display:block;font-size:13px;margin-bottom:5px;}
+.ppdb-flow-item p{font-size:12px;color:#728078;line-height:1.6;}
+.ppdb-chat-intro strong{color:#138a36;}
+@media(max-width:980px){.ppdb-hero-grid,.ppdb-form-layout,.ppdb-flow{grid-template-columns:1fr}.ppdb-sidebar{border-right:0;border-bottom:1px solid var(--ppdb-line);padding-right:0;padding-bottom:20px}.ppdb-steps{display:grid;grid-template-columns:repeat(2,1fr)}.ppdb-grid{grid-template-columns:repeat(2,1fr)}.ppdb-flow-list{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.ppdb-hero{padding-top:112px}.ppdb-hero h1{font-size:34px}.ppdb-year{font-size:20px}.ppdb-form-layout{padding:18px}.ppdb-steps{grid-template-columns:1fr}.ppdb-grid,.ppdb-upload-grid,.ppdb-summary{grid-template-columns:1fr}.ppdb-field.half{grid-column:1/-1}.ppdb-flow{padding:20px}.ppdb-flow-list{grid-template-columns:1fr}.ppdb-actions{flex-direction:column-reverse;align-items:stretch}.ppdb-actions .btn-primary,.ppdb-actions .btn-outline{width:100%}.ari-chat{height:78dvh}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<div class="logo">
+<img src="assets/img/logo.png" alt="Logo MI Ar Risalah">
+<div class="logo-text">
+<h2>MI Ar Risalah</h2>
+<span>Ngawi</span>
+</div>
+</div>
+<nav>
+<a href="index.html#hero">Beranda</a>
+<a href="index.html#program">Program</a>
+<a href="index.html#facility">Fasilitas</a>
+<a href="index.html#gallery">Galeri</a>
+<a href="index.html#contact">Kontak</a>
+</nav>
+<div class="header-button">
+<a href="ppdb.html" class="btn-primary">Daftar</a>
+<a href="index.html#contact" class="btn-outline">Hubungi Kami</a>
+</div>
+</div>
+</header>
+
+<main>
+<section class="ppdb-hero hero" id="hero">
+<div class="container ppdb-hero-grid">
+<div>
+<span class="ppdb-kicker">PPDB Online</span>
+<h1>Penerimaan Peserta Didik Baru</h1>
+<div class="ppdb-year">Tahun Ajaran 2026/2027</div>
+<p>Silakan lengkapi data calon siswa dengan benar. Data akan digunakan untuk proses verifikasi pendaftaran MI Ar Risalah Ngawi.</p>
+</div>
+<div class="ppdb-mascot-wrap">
+<img class="ppdb-mascot" src="assets/mascot/ari.png" alt="Ari Asisten PPDB">
+<img class="ppdb-mascot" src="assets/img/ari.png" alt="Maskot siswa">
+</div>
+</div>
+</section>
+
+<section class="ppdb-shell section">
+<div class="container">
+<form class="ppdb-card ppdb-form-layout" id="ppdbForm">
+<aside class="ppdb-sidebar">
+<div class="ppdb-steps" aria-label="Tahapan formulir PPDB">
+<button class="ppdb-step active" type="button" data-step="0"><span>1</span>Data Calon Siswa</button>
+<button class="ppdb-step" type="button" data-step="1"><span>2</span>Data Orang Tua/Wali</button>
+<button class="ppdb-step" type="button" data-step="2"><span>3</span>Upload Dokumen</button>
+<button class="ppdb-step" type="button" data-step="3"><span>4</span>Konfirmasi</button>
+</div>
+<div class="ppdb-help">
+<h3>Butuh Bantuan?</h3>
+<p>Hubungi kami jika mengalami kesulitan saat mengisi formulir pendaftaran.</p>
+<a href="tel:081234567890"><i class="fa-solid fa-phone"></i>0812-3456-7890</a>
+<a href="mailto:info@miarrisalah.sch.id"><i class="fa-solid fa-envelope"></i>info@miarrisalah.sch.id</a>
+</div>
+</aside>
+
+<div class="ppdb-main">
+<div class="ppdb-panel active" data-panel="0">
+<h2>1. Data Calon Siswa</h2>
+<div class="ppdb-grid">
+<div class="ppdb-field half"><label>Nama Lengkap</label><input name="nama_lengkap" type="text" placeholder="Contoh: Muhammad Hafiz" required></div>
+<div class="ppdb-field"><label>Nama Panggilan</label><input name="nama_panggilan" type="text" placeholder="Contoh: Hafiz"></div>
+<div class="ppdb-field"><label>Tempat Lahir</label><input name="tempat_lahir" type="text" placeholder="Contoh: Ngawi" required></div>
+<div class="ppdb-field"><label>Tanggal Lahir</label><input name="tanggal_lahir" type="date" required></div>
+<div class="ppdb-field"><label>Jenis Kelamin</label><select name="jenis_kelamin" required><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+<div class="ppdb-field"><label>Agama</label><select name="agama" required><option>Islam</option></select></div>
+<div class="ppdb-field"><label>Kewarganegaraan</label><input name="kewarganegaraan" type="text" value="WNI"></div>
+<div class="ppdb-field"><label>Anak Ke-</label><input name="anak_ke" type="number" min="1" placeholder="Contoh: 1"></div>
+<div class="ppdb-field"><label>Jumlah Saudara Kandung</label><input name="jumlah_saudara" type="number" min="0" placeholder="Contoh: 2"></div>
+<div class="ppdb-field"><label>Asal TK / RA</label><input name="asal_sekolah" type="text" placeholder="Contoh: TK Islam Cemerlang"></div>
+<div class="ppdb-field"><label>NIK</label><input name="nik" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit NIK"></div>
+<div class="ppdb-field"><label>No. KK</label><input name="no_kk" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit No. KK"></div>
+<div class="ppdb-field wide"><label>Alamat Lengkap</label><textarea name="alamat" placeholder="Contoh: Jl. Pendidikan No. 10, Ngawi" required></textarea></div>
+<div class="ppdb-field"><label>Kode Pos</label><input name="kode_pos" type="text" inputmode="numeric" placeholder="Contoh: 63211"></div>
+<div class="ppdb-field"><label>No. HP Calon Siswa</label><input name="hp_siswa" type="tel" placeholder="Contoh: 081234567890"></div>
+<div class="ppdb-field"><label>Email</label><input name="email" type="email" placeholder="contoh@email.com"></div>
+</div>
+</div>
+
+<div class="ppdb-panel" data-panel="1">
+<h2>2. Data Orang Tua / Wali</h2>
+<div class="ppdb-grid">
+<div class="ppdb-field"><label>Nama Ayah</label><input name="nama_ayah" type="text" placeholder="Nama lengkap ayah" required></div>
+<div class="ppdb-field"><label>Pekerjaan Ayah</label><input name="pekerjaan_ayah" type="text" placeholder="Contoh: Wiraswasta"></div>
+<div class="ppdb-field"><label>No. HP Ayah</label><input name="hp_ayah" type="tel" placeholder="0812xxxx"></div>
+<div class="ppdb-field"><label>Nama Ibu</label><input name="nama_ibu" type="text" placeholder="Nama lengkap ibu" required></div>
+<div class="ppdb-field"><label>Pekerjaan Ibu</label><input name="pekerjaan_ibu" type="text" placeholder="Contoh: Guru"></div>
+<div class="ppdb-field"><label>No. HP Ibu</label><input name="hp_ibu" type="tel" placeholder="0812xxxx"></div>
+<div class="ppdb-field"><label>Nama Wali</label><input name="nama_wali" type="text" placeholder="Isi jika tinggal dengan wali"></div>
+<div class="ppdb-field"><label>Hubungan Wali</label><input name="hubungan_wali" type="text" placeholder="Contoh: Paman"></div>
+<div class="ppdb-field"><label>No. HP Wali</label><input name="hp_wali" type="tel" placeholder="0812xxxx"></div>
+<div class="ppdb-field wide"><label>Alamat Orang Tua / Wali</label><textarea name="alamat_ortu" placeholder="Kosongkan jika sama dengan alamat calon siswa"></textarea></div>
+</div>
+</div>
+
+<div class="ppdb-panel" data-panel="2">
+<h2>3. Upload Dokumen</h2>
+<div class="ppdb-upload-grid">
+<label class="ppdb-upload"><i class="fa-solid fa-id-card"></i><div><strong>Akta Kelahiran</strong><small>Format JPG, PNG, atau PDF.</small><input name="akta" type="file" accept=".jpg,.jpeg,.png,.pdf"></div></label>
+<label class="ppdb-upload"><i class="fa-solid fa-address-card"></i><div><strong>Kartu Keluarga</strong><small>Unggah scan/foto KK terbaru.</small><input name="kk" type="file" accept=".jpg,.jpeg,.png,.pdf"></div></label>
+<label class="ppdb-upload"><i class="fa-solid fa-image-portrait"></i><div><strong>Pas Foto Anak</strong><small>Foto rapi calon siswa.</small><input name="pas_foto" type="file" accept=".jpg,.jpeg,.png"></div></label>
+<label class="ppdb-upload"><i class="fa-solid fa-file-lines"></i><div><strong>Ijazah TK / RA</strong><small>Opsional jika sudah tersedia.</small><input name="ijazah" type="file" accept=".jpg,.jpeg,.png,.pdf"></div></label>
+</div>
+<p class="ppdb-note" style="margin-top:16px;">Catatan: upload dokumen masih dummy untuk UI. Saat integrasi Google Sheet final, file bisa diarahkan ke Google Drive atau dikirim sebagai link.</p>
+</div>
+
+<div class="ppdb-panel" data-panel="3">
+<h2>4. Konfirmasi Pendaftaran</h2>
+<div class="ppdb-summary" id="ppdbSummary">
+<div><span>Nama Calon Siswa</span><strong>-</strong></div>
+<div><span>Tempat, Tanggal Lahir</span><strong>-</strong></div>
+<div><span>Jenis Kelamin</span><strong>-</strong></div>
+<div><span>Asal TK / RA</span><strong>-</strong></div>
+<div><span>Nama Ayah</span><strong>-</strong></div>
+<div><span>Nama Ibu</span><strong>-</strong></div>
+</div>
+<label class="ppdb-consent"><input type="checkbox" name="persetujuan" required><span>Saya menyatakan data yang diisi benar dan bersedia mengikuti proses verifikasi PPDB MI Ar Risalah Ngawi.</span></label>
+<div class="ppdb-status" id="ppdbStatus"></div>
+</div>
+
+<div class="ppdb-actions">
+<button class="btn-outline" type="button" id="prevStep" style="visibility:hidden"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+<span class="ppdb-note">Data dapat diperiksa kembali sebelum dikirim.</span>
+<button class="btn-primary" type="button" id="nextStep">Selanjutnya <i class="fa-solid fa-circle-arrow-right"></i></button>
+</div>
+</div>
+</form>
+
+<section class="ppdb-card ppdb-flow">
+<img src="assets/mascot/ari.png" alt="Ari membantu PPDB">
+<div>
+<h2>Alur Pendaftaran</h2>
+<div class="ppdb-flow-list">
+<div class="ppdb-flow-item"><div class="ppdb-flow-icon"><i class="fa-solid fa-pen-to-square"></i></div><strong>Isi Data</strong><p>Lengkapi data dengan benar.</p></div>
+<div class="ppdb-flow-item"><div class="ppdb-flow-icon"><i class="fa-solid fa-file-arrow-up"></i></div><strong>Upload Dokumen</strong><p>Unggah dokumen yang diperlukan.</p></div>
+<div class="ppdb-flow-item"><div class="ppdb-flow-icon"><i class="fa-solid fa-user-check"></i></div><strong>Verifikasi</strong><p>Data akan diverifikasi oleh admin.</p></div>
+<div class="ppdb-flow-item"><div class="ppdb-flow-icon"><i class="fa-solid fa-circle-check"></i></div><strong>Selesai</strong><p>Dapatkan nomor pendaftaran.</p></div>
+</div>
+</div>
+</section>
+</div>
+</section>
+</main>
+
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<h3>MI Ar Risalah Ngawi</h3>
+<p>Membentuk Generasi Islami, Cerdas, Berkarakter, dan Berakhlakul Karimah.</p>
+<div class="social">
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-whatsapp"></i></a>
+<a href="#"><i class="fab fa-tiktok"></i></a>
+</div>
+</div>
+<div>
+<h3>Hubungi Kami</h3>
+<ul class="contact">
+<li><i class="fa-solid fa-location-dot"></i>Ngawi, Jawa Timur</li>
+<li><i class="fa-solid fa-phone"></i>0812-3456-7890</li>
+<li><i class="fa-solid fa-envelope"></i>info@miarrisalah.sch.id</li>
+</ul>
+</div>
+</div>
+<div class="copyright">© 2026 MI Ar Risalah Ngawi<br>All Rights Reserved</div>
+</div>
+</footer>
+
+<div class="ari-launcher" id="ariLauncher">
+<div class="ari-bubble">
+<div class="bubble-title">👋 Assalamu'alaikum</div>
+<div class="bubble-text" id="bubbleText">Saya Ari. Klik saya jika ingin bertanya seputar PPDB.</div>
+</div>
+<div class="ari-avatar"><span class="online-dot"></span><img src="assets/mascot/ari.png" alt="Ari"></div>
+<div class="ari-label">Chat dengan Ari ✨</div>
+</div>
+
+<div class="ari-chat" id="ariChat">
+<div class="ari-chat-header">
+<div class="ari-chat-profile">
+<img src="assets/mascot/ari.png" alt="Ari">
+<div><h3>Ari</h3><span>Asisten Virtual MI Ar Risalah</span><small><span class="online-status"></span>Online</small></div>
+</div>
+<button id="closeChat" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="ari-chat-body" id="chatBody">
+<div class="ari-message-left">
+<img src="assets/mascot/ari.png" alt="Ari">
+<div class="chat-bubble ppdb-chat-intro"><strong>PPDB Online siap dibantu.</strong><br><br>Saya bisa membantu menjelaskan alur pendaftaran, dokumen, dan kontak sekolah.</div>
+</div>
+</div>
+<div class="ari-quick">
+<button data-reply="Silakan isi data calon siswa mulai dari nama lengkap, tempat lahir, tanggal lahir, dan alamat. Setelah itu lanjut ke data orang tua/wali.">📋 Isi Data</button>
+<button data-reply="Dokumen yang biasanya disiapkan: Akta Kelahiran, Kartu Keluarga, Pas Foto, dan Ijazah TK/RA jika ada.">📎 Dokumen</button>
+<button data-reply="Setelah data dikirim, admin sekolah akan melakukan verifikasi dan menghubungi nomor yang tertera.">✅ Verifikasi</button>
+<button data-reply="Jika butuh bantuan cepat, hubungi 0812-3456-7890 atau email info@miarrisalah.sch.id.">☎ Kontak</button>
+</div>
+<div class="ari-chat-input">
+<input id="chatInput" type="text" placeholder="Tanyakan di sini...">
+<button id="sendMessage" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+</div>
+</div>
+
+<script>
+const GOOGLE_SHEET_WEB_APP_URL = "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI";
+const form = document.getElementById("ppdbForm");
+const panels = Array.from(document.querySelectorAll(".ppdb-panel"));
+const steps = Array.from(document.querySelectorAll(".ppdb-step"));
+const prevBtn = document.getElementById("prevStep");
+const nextBtn = document.getElementById("nextStep");
+const statusBox = document.getElementById("ppdbStatus");
+let currentStep = 0;
+
+function setStep(index){
+currentStep = Math.max(0, Math.min(index, panels.length - 1));
+panels.forEach((panel, i) => panel.classList.toggle("active", i === currentStep));
+steps.forEach((step, i) => step.classList.toggle("active", i === currentStep));
+prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+nextBtn.innerHTML = currentStep === panels.length - 1 ? 'Kirim Pendaftaran <i class="fa-solid fa-paper-plane"></i>' : 'Selanjutnya <i class="fa-solid fa-circle-arrow-right"></i>';
+if(currentStep === panels.length - 1){ updateSummary(); }
+}
+
+function currentPanelIsValid(){
+const fields = panels[currentStep].querySelectorAll("input,select,textarea");
+for(const field of fields){
+if(!field.checkValidity()){
+field.reportValidity();
+return false;
+}
+}
+return true;
+}
+
+function fieldValue(name){
+const field = form.elements[name];
+return field ? field.value || "-" : "-";
+}
+
+function updateSummary(){
+const rows = document.querySelectorAll("#ppdbSummary strong");
+const ttl = `${fieldValue("tempat_lahir")}, ${fieldValue("tanggal_lahir")}`;
+const values = [fieldValue("nama_lengkap"), ttl, fieldValue("jenis_kelamin"), fieldValue("asal_sekolah"), fieldValue("nama_ayah"), fieldValue("nama_ibu")];
+rows.forEach((row, i) => row.textContent = values[i] || "-");
+}
+
+async function submitDummy(){
+if(!currentPanelIsValid()) return;
+statusBox.className = "ppdb-status show ok";
+statusBox.textContent = "Mode dummy: data berhasil disiapkan. Nanti URL Google Apps Script tinggal dipasang untuk kirim otomatis ke Google Sheet.";
+
+const payload = new FormData(form);
+payload.append("submitted_at", new Date().toISOString());
+
+if(GOOGLE_SHEET_WEB_APP_URL.includes("PASTE_URL")){
+console.log("PPDB dummy payload", Object.fromEntries(payload.entries()));
+return;
+}
+
+try{
+await fetch(GOOGLE_SHEET_WEB_APP_URL, { method:"POST", body:payload, mode:"no-cors" });
+statusBox.className = "ppdb-status show ok";
+statusBox.textContent = "Pendaftaran berhasil dikirim. Admin akan melakukan verifikasi data.";
+form.reset();
+setStep(0);
+}catch(error){
+statusBox.className = "ppdb-status show error";
+statusBox.textContent = "Data belum terkirim. Silakan coba lagi atau hubungi admin sekolah.";
+}
+}
+
+steps.forEach(step => step.addEventListener("click", () => {
+const target = Number(step.dataset.step);
+if(target <= currentStep || currentPanelIsValid()) setStep(target);
+}));
+prevBtn.addEventListener("click", () => setStep(currentStep - 1));
+nextBtn.addEventListener("click", () => currentStep === panels.length - 1 ? submitDummy() : (currentPanelIsValid() && setStep(currentStep + 1)));
+
+const header = document.querySelector(".header");
+window.addEventListener("scroll", () => {
+if(window.scrollY > 30){
+header.style.background = "rgba(255,255,255,.94)";
+header.style.boxShadow = "0 15px 40px rgba(0,0,0,.08)";
+}else{
+header.style.background = "rgba(255,255,255,.82)";
+header.style.boxShadow = "none";
+}
+});
+
+document.querySelectorAll(".section").forEach(section => {
+section.classList.add("fade-up");
+});
+const observer = new IntersectionObserver(entries => {
+entries.forEach(entry => {
+if(entry.isIntersecting){ entry.target.classList.add("show"); }
+});
+},{ threshold:.12 });
+document.querySelectorAll(".fade-up").forEach(section => observer.observe(section));
+
+const launcher = document.getElementById("ariLauncher");
+const bubbleBox = document.querySelector(".ari-bubble");
+const chatWindow = document.getElementById("ariChat");
+const closeChat = document.getElementById("closeChat");
+const bubbleText = document.getElementById("bubbleText");
+const bubbleMessages = ["😊 Saya Ari. Klik saya jika ingin bertanya tentang PPDB.","📋 Saya bisa bantu alur pengisian formulir.","📎 Jangan lupa siapkan dokumen pendaftaran.","✅ Data akan diverifikasi oleh admin sekolah."];
+let bubbleIndex = 0;
+let bubbleTimer = null;
+let bubbleDisplayTimer = null;
+
+function showBubble(){
+clearTimeout(bubbleTimer);
+clearTimeout(bubbleDisplayTimer);
+if(chatWindow.classList.contains("show")) return;
+bubbleText.textContent = bubbleMessages[bubbleIndex];
+bubbleIndex = (bubbleIndex + 1) % bubbleMessages.length;
+bubbleBox.style.display = "block";
+bubbleBox.style.opacity = "0";
+bubbleBox.style.transform = "translateY(20px)";
+bubbleDisplayTimer = setTimeout(() => {
+bubbleBox.style.opacity = "1";
+bubbleBox.style.transform = "translateY(0)";
+}, 30);
+bubbleTimer = setTimeout(hideBubble, 5000);
+}
+function hideBubble(){
+clearTimeout(bubbleTimer);
+bubbleBox.style.opacity = "0";
+bubbleBox.style.transform = "translateY(15px)";
+bubbleDisplayTimer = setTimeout(() => { bubbleBox.style.display = "none"; }, 400);
+}
+function openChat(){
+clearTimeout(bubbleTimer);
+clearTimeout(bubbleDisplayTimer);
+bubbleBox.style.display = "none";
+launcher.style.transform = "scale(.85)";
+launcher.style.opacity = "0";
+setTimeout(() => {
+launcher.style.display = "none";
+chatWindow.classList.add("show");
+}, 250);
+}
+function closeChatWindow(){
+chatWindow.classList.remove("show");
+setTimeout(() => {
+launcher.style.display = "flex";
+launcher.style.opacity = "1";
+launcher.style.transform = "scale(1)";
+showBubble();
+}, 250);
+}
+function addChatMessage(text, fromUser){
+const row = document.createElement("div");
+row.className = "ari-message-left";
+row.innerHTML = fromUser ? `<div class="chat-bubble" style="margin-left:auto;background:#138A36;color:#fff">${text}</div>` : `<img src="assets/mascot/ari.png" alt="Ari"><div class="chat-bubble">${text}</div>`;
+document.getElementById("chatBody").appendChild(row);
+row.scrollIntoView({ behavior:"smooth", block:"end" });
+}
+launcher.addEventListener("click", openChat);
+closeChat.addEventListener("click", closeChatWindow);
+document.querySelectorAll(".ari-quick button").forEach(button => button.addEventListener("click", () => addChatMessage(button.dataset.reply, false)));
+document.getElementById("sendMessage").addEventListener("click", () => {
+const input = document.getElementById("chatInput");
+if(!input.value.trim()) return;
+addChatMessage(input.value.trim(), true);
+input.value = "";
+setTimeout(() => addChatMessage("Terima kasih. Untuk detail PPDB, silakan lengkapi formulir atau hubungi admin sekolah melalui kontak yang tersedia.", false), 500);
+});
+window.addEventListener("DOMContentLoaded", showBubble);
+if(document.readyState !== "loading") showBubble();
+</script>
+</body>
+</html>
