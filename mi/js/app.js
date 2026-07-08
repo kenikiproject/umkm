@@ -110,28 +110,6 @@ behavior:"smooth"
 
 
 /* ======================================================
-Floating Ari
-====================================================== */
-
-const bubble=document.querySelector(".bubble");
-
-setTimeout(()=>{
-
-bubble.style.opacity=1;
-
-bubble.style.transform="translateY(0px)";
-
-},4000);
-
-
-setTimeout(()=>{
-
-bubble.style.opacity=0;
-
-},9000);
-
-
-/* ======================================================
 Auto Hero Animation
 ====================================================== */
 
@@ -296,47 +274,6 @@ lightbox.classList.remove("show");
 }
 
 };
-
-
-/* ======================================================
-ARI MESSAGE
-====================================================== */
-
-const ariMessages=[
-
-"👋 Assalamu'alaikum.",
-
-"😊 Ada yang bisa saya bantu?",
-
-"📖 Yuk lihat Program Unggulan kami.",
-
-"🏫 Jangan lupa lihat fasilitas sekolah.",
-
-"📷 Galeri kegiatan juga menarik lho.",
-
-"📝 PPDB sudah dibuka."
-
-];
-
-let ariIndex=0;
-
-setInterval(()=>{
-
-bubble.innerHTML=ariMessages[ariIndex];
-
-bubble.style.opacity=1;
-
-bubble.style.transform="translateY(0px)";
-
-ariIndex++;
-
-if(ariIndex>=ariMessages.length){
-
-ariIndex=0;
-
-}
-
-},7000);
 
 
 /* ======================================================
@@ -646,150 +583,109 @@ ARI LAUNCHER
 =================================================== */
 
 const launcher = document.getElementById("ariLauncher");
-
 const bubbleBox = document.querySelector(".ari-bubble");
-
 const chatWindow = document.getElementById("ariChat");
-
 const closeChat = document.getElementById("closeChat");
 
-
-/* =======================================
-Bubble Message
-======================================= */
-
-const bubbleMessages=[
-
+const bubbleMessages = [
 "😊 Saya Ari. Klik saya jika ingin bertanya.",
-
 "📚 Saya bisa menjelaskan Program Unggulan.",
-
 "📝 Tanya seputar PPDB juga bisa.",
-
 "🏫 Ingin tahu fasilitas sekolah?",
-
 "💚 Silakan klik saya kapan saja."
-
 ];
 
-let bubbleIndex=0;
+let bubbleIndex = 0;
+let bubbleHideTimer = null;
+let bubbleDisplayTimer = null;
 
+function setBubbleText() {
+    const bubbleText = bubbleBox.querySelector(".bubble-text");
 
-/* =======================================
-Show Bubble
-======================================= */
+    if (!bubbleText) {
+        return;
+    }
 
-function showBubble(){
-
-bubbleBox.style.display="block";
-
-bubbleBox.style.opacity="0";
-
-bubbleBox.style.transform="translateY(20px)";
-
-setTimeout(()=>{
-
-bubbleBox.style.transition=".35s";
-
-bubbleBox.style.opacity="1";
-
-bubbleBox.style.transform="translateY(0)";
-
-},30);
-
-bubbleBox.querySelector(".bubble-text").innerHTML=bubbleMessages[bubbleIndex];
-
-bubbleIndex++;
-
-if(bubbleIndex>=bubbleMessages.length){
-
-bubbleIndex=0;
-
+    bubbleText.innerHTML = bubbleMessages[bubbleIndex];
+    bubbleIndex = (bubbleIndex + 1) % bubbleMessages.length;
 }
 
-setTimeout(hideBubble,5000);
+function showBubble() {
+    if (!bubbleBox || chatWindow.classList.contains("show")) {
+        return;
+    }
 
+    clearTimeout(bubbleHideTimer);
+    clearTimeout(bubbleDisplayTimer);
+
+    setBubbleText();
+
+    bubbleBox.style.display = "block";
+    bubbleBox.style.opacity = "0";
+    bubbleBox.style.transform = "translateY(20px)";
+
+    bubbleDisplayTimer = setTimeout(() => {
+        bubbleBox.style.opacity = "1";
+        bubbleBox.style.transform = "translateY(0)";
+    }, 30);
+
+    bubbleHideTimer = setTimeout(hideBubble, 5000);
 }
 
+function hideBubble() {
+    if (!bubbleBox) {
+        return;
+    }
 
-/* =======================================
-Hide Bubble
-======================================= */
+    clearTimeout(bubbleHideTimer);
 
-function hideBubble(){
+    bubbleBox.style.opacity = "0";
+    bubbleBox.style.transform = "translateY(15px)";
 
-bubbleBox.style.opacity="0";
-
-bubbleBox.style.transform="translateY(15px)";
-
-setTimeout(()=>{
-
-bubbleBox.style.display="none";
-
-},400);
-
+    bubbleDisplayTimer = setTimeout(() => {
+        bubbleBox.style.display = "none";
+    }, 400);
 }
 
+function openChat() {
+    if (!launcher || !chatWindow) {
+        return;
+    }
 
-/* =======================================
-Show Chat
-======================================= */
+    clearTimeout(bubbleHideTimer);
+    clearTimeout(bubbleDisplayTimer);
 
-function openChat(){
+    if (bubbleBox) {
+        bubbleBox.style.display = "none";
+    }
 
-launcher.style.transform="scale(.85)";
+    launcher.style.transform = "scale(.85)";
+    launcher.style.opacity = "0";
 
-launcher.style.opacity="0";
-
-setTimeout(()=>{
-
-launcher.style.display="none";
-
-chatWindow.classList.add("show");
-
-},250);
-
+    setTimeout(() => {
+        launcher.style.display = "none";
+        chatWindow.classList.add("show");
+    }, 250);
 }
 
+function closeChatWindow() {
+    if (!launcher || !chatWindow) {
+        return;
+    }
 
-/* =======================================
-Close Chat
-======================================= */
+    chatWindow.classList.remove("show");
 
-function closeChatWindow(){
-
-chatWindow.classList.remove("show");
-
-setTimeout(()=>{
-
-launcher.style.display="flex";
-
-launcher.style.opacity="1";
-
-launcher.style.transform="scale(1)";
-
-showBubble();
-
-},250);
-
+    setTimeout(() => {
+        launcher.style.display = "flex";
+        launcher.style.opacity = "1";
+        launcher.style.transform = "scale(1)";
+        showBubble();
+    }, 250);
 }
 
+if (launcher && bubbleBox && chatWindow && closeChat) {
+    launcher.addEventListener("click", openChat);
+    closeChat.addEventListener("click", closeChatWindow);
 
-/* =======================================
-Event
-======================================= */
-
-launcher.addEventListener("click",openChat);
-
-closeChat.addEventListener("click",closeChatWindow);
-
-
-/* =======================================
-Start
-======================================= */
-
-window.addEventListener("load",()=>{
-
-showBubble();
-
-});
+    window.addEventListener("load", showBubble);
+}
