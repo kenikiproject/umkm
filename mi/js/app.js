@@ -579,89 +579,242 @@ modal.classList.remove("show");
 };
 
 /* ===================================================
-ARI LAUNCHER
+ARI LAUNCHER + JSON ASSISTANT
 =================================================== */
 
 const launcher = document.getElementById("ariLauncher");
 const bubbleBox = document.querySelector(".ari-bubble");
 const chatWindow = document.getElementById("ariChat");
 const closeChat = document.getElementById("closeChat");
+const chatBody = document.getElementById("chatBody");
+const chatInput = document.getElementById("chatInput");
+const sendMessage = document.getElementById("sendMessage");
+const ARI_ICON = "assets/mascot/icon-ari.png";
 
 const bubbleMessages = [
-"😊 Saya Ari. Klik saya jika ingin bertanya.",
-"📚 Saya bisa menjelaskan Program Unggulan.",
-"📝 Tanya seputar PPDB juga bisa.",
-"🏫 Ingin tahu fasilitas sekolah?",
-"💚 Silakan klik saya kapan saja."
+    "Saya Ari. Klik saya jika ingin bertanya.",
+    "Saya bisa menjelaskan program unggulan.",
+    "Tanya seputar PPDB juga bisa.",
+    "Ingin tahu fasilitas sekolah?",
+    "Silakan klik saya kapan saja."
 ];
+
+const assistantData = {
+    school: null,
+    program: [],
+    facility: [],
+    faq: [],
+    ppdb: null,
+    teachers: [],
+    extracurricular: []
+};
 
 let bubbleIndex = 0;
 let bubbleHideTimer = null;
 let bubbleDisplayTimer = null;
+let assistantReady = false;
+
+function injectAssistantStyle() {
+    if (document.getElementById("ariAssistantStyle")) return;
+
+    const style = document.createElement("style");
+    style.id = "ariAssistantStyle";
+    style.textContent = `
+        .ari-user-message{justify-content:flex-end;}
+        .ari-user-message .chat-bubble{background:#138A36;color:#fff;margin-left:auto;}
+        .typing-bubble{display:flex;gap:5px;align-items:center;padding:14px 16px;min-width:58px;}
+        .typing-bubble span{width:7px;height:7px;border-radius:50%;background:#9ca3af;animation:typingDot 1s infinite ease-in-out;}
+        .typing-bubble span:nth-child(2){animation-delay:.15s;}
+        .typing-bubble span:nth-child(3){animation-delay:.3s;}
+        .chat-bubble ul{margin:8px 0 0 18px;list-style:disc;}
+        .chat-bubble li{margin:4px 0;}
+        .chat-bubble a{color:#138A36;font-weight:700;}
+        @keyframes typingDot{0%,80%,100%{opacity:.35;transform:translateY(0);}40%{opacity:1;transform:translateY(-4px);}}
+    `;
+    document.head.appendChild(style);
+}
+
+function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[char]));
+}
+
+async function loadJson(path, fallback) {
+    try {
+        const response = await fetch(path, { cache: "no-store" });
+        if (!response.ok) throw new Error(path);
+        return await response.json();
+    } catch (error) {
+        return fallback;
+    }
+}
+
+async function loadAssistantData() {
+    const [school, program, facility, faq, ppdb, teachers, extracurricular] = await Promise.all([
+        loadJson("data/school.json", null),
+        loadJson("data/program.json", []),
+        loadJson("data/facility.json", []),
+        loadJson("data/faq.json", []),
+        loadJson("data/ppdb.json", null),
+        loadJson("data/teachers.json", []),
+        loadJson("data/extracurricular.json", [])
+    ]);
+
+    assistantData.school = school;
+    assistantData.program = Array.isArray(program) ? program : [];
+    assistantData.facility = Array.isArray(facility) ? facility : [];
+    assistantData.faq = Array.isArray(faq) ? faq : [];
+    assistantData.ppdb = ppdb;
+    assistantData.teachers = Array.isArray(teachers) ? teachers : [];
+    assistantData.extracurricular = Array.isArray(extracurricular) ? extracurricular : [];
+    assistantReady = true;
+}
+
+function listItems(items, titleKey = "title") {
+    if (!items || !items.length) return "Datanya belum tersedia.";
+    return `<ul>${items.map(item => `<li><strong>${escapeHtml(item[titleKey] || item.name || item.question)}</strong>${item.summary ? `<br>${escapeHtml(item.summary)}` : ""}</li>`).join("")}</ul>`;
+}
+
+function formatSchool() {
+    const school = assistantData.school;
+    if (!school) return "Info sekolah belum tersedia di database.";
+    return `<strong>${escapeHtml(school.name)}</strong><br>${escapeHtml(school.tagline)}<br><br><strong>Kontak:</strong><br>${escapeHtml(school.phone)}<br>${escapeHtml(school.email)}<br>${escapeHtml(school.address)}`;
+}
+
+function formatPPDB() {
+    const ppdb = assistantData.ppdb;
+    if (!ppdb) return "Info PPDB belum tersedia di database.";
+    return `<strong>PPDB Tahun Ajaran ${escapeHtml(ppdb.academic_year)}</strong><br>Status: ${escapeHtml(ppdb.status)}<br><br><strong>Alur:</strong><ul>${(ppdb.steps || []).map(step => `<li>${escapeHtml(step)}</li>`).join("")}</ul><strong>Dokumen:</strong><ul>${(ppdb.documents || []).map(doc => `<li>${escapeHtml(doc)}</li>`).join("")}</ul>`;
+}
+
+function formatItem(item, type) {
+    if (type === "faq") return `<strong>${escapeHtml(item.question)}</strong><br>${escapeHtml(item.answer)}`;
+    if (type === "teacher") return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.role)}${item.subject ? ` - ${escapeHtml(item.subject)}` : ""}<br>${escapeHtml(item.summary)}`;
+    if (type === "extracurricular") return `<strong>${escapeHtml(item.name)}</strong><br>Jadwal: ${escapeHtml(item.schedule || "Menyesuaikan")}.<br>${escapeHtml(item.summary)}`;
+    return `<strong>${escapeHtml(item.title || item.name)}</strong><br>${escapeHtml(item.summary)}${item.details ? `<ul>${item.details.map(detail => `<li>${escapeHtml(detail)}</li>`).join("")}</ul>` : ""}`;
+}
+
+function answerTopic(topic) {
+    const key = String(topic || "").toLowerCase();
+    if (key.includes("program")) return `<strong>Program unggulan kami:</strong>${listItems(assistantData.program, "title")}`;
+    if (key.includes("fasilitas") || key.includes("facility")) return `<strong>Fasilitas sekolah:</strong>${listItems(assistantData.facility, "name")}`;
+    if (key.includes("ppdb") || key.includes("daftar") || key.includes("dokumen") || key.includes("verifikasi")) return formatPPDB();
+    if (key.includes("guru") || key.includes("teacher")) return `<strong>Data guru sementara:</strong>${listItems(assistantData.teachers, "name")}`;
+    if (key.includes("ekskul") || key.includes("extra")) return `<strong>Ekstrakurikuler:</strong>${listItems(assistantData.extracurricular, "name")}`;
+    if (key.includes("kontak") || key.includes("alamat")) return formatSchool();
+    return "Silakan pilih menu atau ketik pertanyaan tentang program, PPDB, fasilitas, guru, ekstrakurikuler, atau kontak sekolah.";
+}
+
+function scoreText(query, values) {
+    const source = values.filter(Boolean).join(" ").toLowerCase();
+    const words = query.split(/\s+/).filter(word => word.length > 2);
+    return words.reduce((score, word) => score + (source.includes(word) ? 1 : 0), 0);
+}
+
+function findAnswer(question) {
+    const query = question.toLowerCase().trim();
+    if (!query) return "Silakan tulis pertanyaan dulu ya.";
+
+    if (/ppdb|daftar|pendaftaran|dokumen|syarat|verifikasi/.test(query)) return formatPPDB();
+    if (/kontak|telepon|whatsapp|wa|email|alamat|lokasi/.test(query)) return formatSchool();
+    if (/program|unggulan/.test(query)) return answerTopic("program");
+    if (/fasilitas|lab|perpus|mushola|uks|kantin|lapangan/.test(query)) return answerTopic("fasilitas");
+    if (/guru|ustadz|ustadzah|wali kelas|kepala/.test(query)) return answerTopic("guru");
+    if (/ekskul|ekstrakurikuler|pramuka|hadrah|olahraga|komputer/.test(query)) return answerTopic("ekskul");
+
+    const collections = [
+        ["program", assistantData.program],
+        ["facility", assistantData.facility],
+        ["faq", assistantData.faq],
+        ["teacher", assistantData.teachers],
+        ["extracurricular", assistantData.extracurricular]
+    ];
+
+    let best = null;
+    collections.forEach(([type, items]) => {
+        items.forEach(item => {
+            const score = scoreText(query, [item.title, item.name, item.question, item.summary, item.answer, item.role, item.subject, ...(item.keywords || [])]);
+            if (score > 0 && (!best || score > best.score)) best = { type, item, score };
+        });
+    });
+
+    if (best) return formatItem(best.item, best.type);
+    return "Maaf, saya belum menemukan jawaban yang pas di database. Coba tanyakan dengan kata kunci seperti tahfidz, PPDB, dokumen, fasilitas, guru, ekstrakurikuler, atau kontak.";
+}
+
+function addChatMessage(text, fromUser = false, asHtml = false) {
+    if (!chatBody) return;
+    const row = document.createElement("div");
+    row.className = fromUser ? "ari-message-left ari-user-message" : "ari-message-left";
+    row.innerHTML = fromUser
+        ? `<div class="chat-bubble">${escapeHtml(text)}</div>`
+        : `<img src="${ARI_ICON}" alt="Ari"><div class="chat-bubble">${asHtml ? text : escapeHtml(text)}</div>`;
+    chatBody.appendChild(row);
+    row.scrollIntoView({ behavior: "smooth", block: "end" });
+}
+
+function showTyping() {
+    const row = document.createElement("div");
+    row.className = "ari-message-left ari-typing";
+    row.innerHTML = `<img src="${ARI_ICON}" alt="Ari"><div class="chat-bubble typing-bubble"><span></span><span></span><span></span></div>`;
+    chatBody.appendChild(row);
+    row.scrollIntoView({ behavior: "smooth", block: "end" });
+    return row;
+}
+
+function replyWithTyping(answer) {
+    const typing = showTyping();
+    setTimeout(() => {
+        typing.remove();
+        addChatMessage(answer, false, true);
+    }, 700 + Math.min(String(answer).length * 4, 500));
+}
+
+async function respondToQuestion(question) {
+    if (!assistantReady) {
+        await loadAssistantData();
+    }
+    replyWithTyping(findAnswer(question));
+}
 
 function setBubbleText() {
     const bubbleText = bubbleBox.querySelector(".bubble-text");
-
-    if (!bubbleText) {
-        return;
-    }
-
-    bubbleText.innerHTML = bubbleMessages[bubbleIndex];
+    if (!bubbleText) return;
+    bubbleText.textContent = bubbleMessages[bubbleIndex];
     bubbleIndex = (bubbleIndex + 1) % bubbleMessages.length;
 }
 
 function showBubble() {
-    if (!bubbleBox || chatWindow.classList.contains("show")) {
-        return;
-    }
-
+    if (!bubbleBox || chatWindow.classList.contains("show")) return;
     clearTimeout(bubbleHideTimer);
     clearTimeout(bubbleDisplayTimer);
-
     setBubbleText();
-
     bubbleBox.style.display = "block";
     bubbleBox.style.opacity = "0";
     bubbleBox.style.transform = "translateY(20px)";
-
     bubbleDisplayTimer = setTimeout(() => {
         bubbleBox.style.opacity = "1";
         bubbleBox.style.transform = "translateY(0)";
     }, 30);
-
     bubbleHideTimer = setTimeout(hideBubble, 5000);
 }
 
 function hideBubble() {
-    if (!bubbleBox) {
-        return;
-    }
-
+    if (!bubbleBox) return;
     clearTimeout(bubbleHideTimer);
-
     bubbleBox.style.opacity = "0";
     bubbleBox.style.transform = "translateY(15px)";
-
     bubbleDisplayTimer = setTimeout(() => {
         bubbleBox.style.display = "none";
     }, 400);
 }
 
 function openChat() {
-    if (!launcher || !chatWindow) {
-        return;
-    }
-
+    if (!launcher || !chatWindow) return;
     clearTimeout(bubbleHideTimer);
     clearTimeout(bubbleDisplayTimer);
-
-    if (bubbleBox) {
-        bubbleBox.style.display = "none";
-    }
-
+    if (bubbleBox) bubbleBox.style.display = "none";
     launcher.style.transform = "scale(.85)";
     launcher.style.opacity = "0";
-
     setTimeout(() => {
         launcher.style.display = "none";
         chatWindow.classList.add("show");
@@ -669,12 +822,8 @@ function openChat() {
 }
 
 function closeChatWindow() {
-    if (!launcher || !chatWindow) {
-        return;
-    }
-
+    if (!launcher || !chatWindow) return;
     chatWindow.classList.remove("show");
-
     setTimeout(() => {
         launcher.style.display = "flex";
         launcher.style.opacity = "1";
@@ -683,9 +832,35 @@ function closeChatWindow() {
     }, 250);
 }
 
+function sendUserMessage() {
+    const value = chatInput.value.trim();
+    if (!value) return;
+    addChatMessage(value, true);
+    chatInput.value = "";
+    respondToQuestion(value);
+}
+
 if (launcher && bubbleBox && chatWindow && closeChat) {
+    injectAssistantStyle();
+    loadAssistantData();
+
     launcher.addEventListener("click", openChat);
     closeChat.addEventListener("click", closeChatWindow);
 
+    document.querySelectorAll(".ari-quick button").forEach(button => {
+        button.addEventListener("click", () => {
+            const topic = button.dataset.topic || button.dataset.reply || button.textContent;
+            respondToQuestion(topic);
+        });
+    });
+
+    if (sendMessage && chatInput) {
+        sendMessage.addEventListener("click", sendUserMessage);
+        chatInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") sendUserMessage();
+        });
+    }
+
     window.addEventListener("load", showBubble);
+    if (document.readyState !== "loading") showBubble();
 }
